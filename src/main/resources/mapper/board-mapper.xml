@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Board">
-    <insert id="save" parameterType="board">
-        insert into board_table(boardTitle, boardWriter, boardPass, boardContents)
-        values (#{boardTitle}, #{boardWriter}, #{boardPass}, #{boardContents})
+    <insert id="save" parameterType="board" useGeneratedKeys="true" keyProperty="id">
+        insert into board_table(boardTitle, boardWriter, boardPass, boardContents, fileAttached)
+        values (#{boardTitle}, #{boardWriter}, #{boardPass}, #{boardContents}, #{fileAttached})
     </insert>
     <select id="findAll" resultType="board">
         select id, boardTitle, boardWriter, boardHits, date_format(createdAt, "%Y-%m-%d") as createdAt
@@ -23,7 +23,8 @@
                boardPass,
                boardContents,
                boardHits,
-               date_format(createdAt, "%Y-%m-%d %H:%i:%s") as createdAt
+               date_format(createdAt, "%Y-%m-%d %H:%i:%s") as createdAt,
+               fileAttached
         from board_table
         where id = #{id}
     </select>
@@ -38,4 +39,13 @@
         from board_table
         where id = #{id}
     </delete>
+    <insert id="saveFile" parameterType="boardFile">
+        insert into board_file_table(originalFileName, storedFileName, boardId)
+        values (#{originalFileName}, #{storedFileName}, #{boardId})
+    </insert>
+    <select id="findFile" parameterType="Long" resultType="boardFile">
+        select *
+        from board_file_table
+        where boardId = #{id}
+    </select>
 </mapper>

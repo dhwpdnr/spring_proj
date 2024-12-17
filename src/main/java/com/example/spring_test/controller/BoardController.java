@@ -1,6 +1,7 @@
 package com.example.spring_test.controller;
 
 import com.example.spring_test.dto.BoardDTO;
+import com.example.spring_test.dto.BoardFileDTO;
 import com.example.spring_test.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -22,7 +24,7 @@ public class BoardController {
     }
 
     @PostMapping("/save")
-    public String save(BoardDTO boardDTO) {
+    public String save(BoardDTO boardDTO) throws IOException {
         System.out.println("BordDTO = " + boardDTO);
         boardService.save(boardDTO);
         return "redirect:/list";
@@ -44,6 +46,10 @@ public class BoardController {
         BoardDTO boardDTO = boardService.findById(id);
         model.addAttribute("board", boardDTO);
         System.out.println("boardDTO = " + boardDTO);
+        if (boardDTO.getFileAttached() == 1) {
+            BoardFileDTO boardFileDTO = boardService.findFile(id);
+            model.addAttribute("boardFile", boardFileDTO);
+        }
         return "detail";
     }
 
