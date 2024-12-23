@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
     <typeAliases>
-        <typeAlias type="com.example.spring_test.dto.BoardDTO" alias="board"></typeAlias>
-        <typeAlias type="com.example.spring_test.dto.BoardFileDTO" alias="boardFile"></typeAlias>
+
+        <typeAlias type="com.example.spring_test.dto.MemberDTO" alias="member"></typeAlias>
     </typeAliases>
 </configuration>

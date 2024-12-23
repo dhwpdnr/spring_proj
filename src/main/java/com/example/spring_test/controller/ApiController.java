@@ -1,25 +1,45 @@
 package com.example.spring_test.controller;
 
-import com.example.spring_test.dto.BoardDTO;
-import com.example.spring_test.service.BoardService;
+import com.example.spring_test.dto.MemberDTO;
+
+import com.example.spring_test.service.MemberService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
 public class ApiController {
 
-    private final BoardService boardService;
+    private final MemberService memberService;
 
-    @GetMapping("/list")
-    public List<BoardDTO> showListPage() {
-        List<BoardDTO> boardDTOList = boardService.findAll();
-        return boardDTOList;
+    public static class ApiResponse {
+        private String msg;
 
+        public ApiResponse(String msg) {
+            this.msg = msg;
+        }
+
+        public String getMsg() {
+            return msg;
+        }
+
+        public void setMsg(String msg) {
+            this.msg = msg;
+        }
+    }
+
+    @PostMapping("/auth/signup")
+    public ResponseEntity<Object> signupAPI(@RequestBody MemberDTO memberDTO) {
+        try {
+            memberService.signup(memberDTO);
+            return ResponseEntity.ok(new ApiResponse("success"));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(new ApiResponse(e.getMessage()));
+        }
     }
 }
