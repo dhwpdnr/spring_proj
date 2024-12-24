@@ -23,4 +23,9 @@ public class MemberRepository {
         }
         sql.insert("Member.signup", memberDTO);
     }
+
+    public MemberDTO login(MemberDTO memberDTO) {
+        return sql.selectOne("Member.login", memberDTO);
+    }
+
 }

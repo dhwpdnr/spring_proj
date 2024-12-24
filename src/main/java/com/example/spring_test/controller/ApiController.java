@@ -42,4 +42,14 @@ public class ApiController {
             return ResponseEntity.badRequest().body(new ApiResponse(e.getMessage()));
         }
     }
+
+    @PostMapping("/auth/login")
+    public ResponseEntity<Object> loginAPI(@RequestBody MemberDTO memberDTO) {
+        try {
+            MemberDTO loggedInMember = memberService.login(memberDTO);
+            return ResponseEntity.ok(loggedInMember);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(new ApiResponse(e.getMessage()));
+        }
+    }
 }

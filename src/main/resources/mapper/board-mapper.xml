@@ -12,4 +12,8 @@
         INSERT INTO members (username, password, phoneNumber, gender, nickname)
         VALUES (#{username}, #{password}, #{phoneNumber}, #{gender}, #{nickname})
     </insert>
+    <select id="login" parameterType="member" resultType="member">
+        SELECT * FROM members
+        WHERE username = #{username} AND password = #{password}
+    </select>
 </mapper>
