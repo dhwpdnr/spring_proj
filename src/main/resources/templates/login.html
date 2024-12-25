@@ -13,20 +13,12 @@
             rel="stylesheet"
             href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=arrow_forward_ios"
     />
-
     <style>
         /* 기본 스타일 초기화 */
         @font-face {
             font-family: "Pretendard-Regular";
             src: url("https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff") format("woff");
             font-weight: 400;
-            font-style: normal;
-        }
-
-        @font-face {
-            font-family: "OKCHAN";
-            src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2206-02@1.0/OKCHAN.woff2") format("woff2");
-            font-weight: normal;
             font-style: normal;
         }
 
@@ -145,7 +137,7 @@
     <!-- 로그인 폼 -->
     <div class="login-form">
         <h2>로그인</h2>
-        <form action="#" method="POST">
+        <form id="loginForm">
             <div class="form-group">
                 <label for="username">아이디</label>
                 <input
@@ -174,5 +166,48 @@
         <p>계정이 없으신가요? <a href="/auth/signup">회원가입</a></p>
     </div>
 </section>
+<script>
+    document.getElementById("loginForm").onsubmit = async function (e) {
+        e.preventDefault(); // 기본 폼 제출 방지
+
+        // 입력 값 가져오기
+        const username = document.getElementById("username").value.trim();
+        const password = document.getElementById("password").value.trim();
+
+        if (!username || !password) {
+            alert("아이디와 비밀번호를 입력해주세요.");
+            return;
+        }
+
+        try {
+            // API 요청
+            const response = await fetch("/api/auth/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ username, password }),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+
+                // 비밀번호 제외 후 세션에 저장
+                const { password, ...userData } = data;
+                sessionStorage.setItem("userData", JSON.stringify(userData));
+
+                alert("로그인 성공!");
+                // 메인 페이지로 리다이렉션
+                window.location.href = "/";
+            } else {
+                const error = await response.json();
+                alert("로그인 실패: " + (error.msg || "아이디나 비밀번호를 확인해주세요."));
+            }
+        } catch (error) {
+            console.error("로그인 요청 중 오류:", error);
+            alert("네트워크 오류가 발생했습니다. 다시 시도해주세요.");
+        }
+    };
+</script>
 </body>
 </html>

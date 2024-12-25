@@ -109,6 +109,22 @@
             background-color: #fe8440; /* 마우스 오버 시 색상 변경 */
         }
 
+        /* 닉네임 표시 */
+        .nickname {
+            font-size: 14px;
+            color: #333;
+            background-color: #ff6600;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .nickname:hover {
+            background-color: #fe8440;
+        }
+
+
         .banner {
             width: 100%;
             height: 200px;
@@ -309,8 +325,8 @@
         <a href="/regist/index">플레이어 신청하기</a>
     </nav>
 
-    <!-- 로그인 버튼 -->
-    <button class="login-btn" onclick="hrefToLogin()">로그인</button>
+    <!-- 로그인 버튼 또는 닉네임 표시 -->
+    <div id="userInfo"></div>
 </header>
 <section>
     <div class="ad-banner">
@@ -762,6 +778,27 @@
             nextArrow: $(".battle-ground-nextArrow"),
         });
     });
+
+    // 로그인 여부 체크 후 UI 변경
+    window.onload = function () {
+        const userData = sessionStorage.getItem("userData");
+        const userInfoElement = document.getElementById("userInfo");
+
+        if (userData) {
+            const user = JSON.parse(userData);
+            const nickname = user.nickname || '사용자';  // 닉네임을 찾거나 기본값 '사용자'로 설정
+
+            // 닉네임 표시 및 클릭 시 다른 페이지로 이동
+            userInfoElement.innerHTML = `
+                <div class="nickname">${nickname}님 안녕하세요</div>
+            `;
+        } else {
+            // 로그인 버튼 표시
+            userInfoElement.innerHTML = `
+                <button class="login-btn" onclick="hrefToLogin()">로그인</button>
+            `;
+        }
+    }
 </script>
 </body>
 </html>
