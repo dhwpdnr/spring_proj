@@ -3,7 +3,6 @@ package com.example.spring_test.controller;
 import com.example.spring_test.dto.MemberDTO;
 
 import com.example.spring_test.service.MemberService;
-import com.example.spring_test.service.PlayerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ApiController {
 
     private final MemberService memberService;
-    private final PlayerService playerService;
+//    private final PlayerService playerService;
 
     public static class ApiResponse {
         private String msg;

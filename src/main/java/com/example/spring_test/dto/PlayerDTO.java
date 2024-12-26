@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
@@ -11,7 +12,7 @@ import lombok.ToString;
 @Data
 public class PlayerDTO {
     private Long playerId;
-    private String profileImage;
+    private MultipartFile profileImage;
     private String nickname;
     private String gameName;
     private String bio;

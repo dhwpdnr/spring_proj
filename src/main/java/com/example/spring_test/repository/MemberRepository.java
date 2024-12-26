@@ -12,7 +12,7 @@ public class MemberRepository {
     private final SqlSessionTemplate sql;
 
     public boolean checkDuplicate(MemberDTO memberDTO) {
-        int count = sql.selectOne("Member.checkDuplicate", memberDTO);
+        int count = sql.selectOne("MemberMapper.checkDuplicate", memberDTO);
         return count > 0;
     }
 
@@ -21,11 +21,11 @@ public class MemberRepository {
         if (checkDuplicate(memberDTO)) {
             throw new IllegalArgumentException("아이디나 닉네임이 중복 되었습니다.");
         }
-        sql.insert("Member.signup", memberDTO);
+        sql.insert("MemberMapper.signup", memberDTO);
     }
 
     public MemberDTO login(MemberDTO memberDTO) {
-        return sql.selectOne("Member.login", memberDTO);
+        return sql.selectOne("MemberMapper.login", memberDTO);
     }
 
 }
